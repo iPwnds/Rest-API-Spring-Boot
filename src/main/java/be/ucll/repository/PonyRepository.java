@@ -1,5 +1,6 @@
-package be.ucll;
+package be.ucll.repository;
 
+import be.ucll.model.Pony;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -19,5 +20,14 @@ public class PonyRepository {
 
     public List<Pony> allPonies() {
         return ponies;
+    }
+
+    public Pony addPony(Pony pony) {
+        ponies.add(pony);
+        return pony;
+    }
+
+    public boolean removePony(Pony pony) {
+        return ponies.removeIf(p -> p.getName().equals(pony.getName()));
     }
 }
