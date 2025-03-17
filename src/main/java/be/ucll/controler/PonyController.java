@@ -19,19 +19,23 @@ public class PonyController {
         this.ponyService = ponyService;
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public List<Pony> allPonies() {
         return ponyService.allPonies();
     }
 
-    @GetMapping("/{name}")
-    public Pony getPonyByName(@PathVariable String name) {
+    @GetMapping("/{ponyName}")
+    public Pony getPonyByName(@PathVariable(value = "ponyName") String name) {
         return ponyService.findPonyByName(name);
     }
 
     @GetMapping
-    public Pony getPonyByNameRequestParam(@RequestParam(name = "name", required = true) String name) {
-        return ponyService.findPonyByName(name);
+    public Object allPonies(@RequestParam(value = "name", required = false) String name) {
+        if (name == null) {
+            return ponyService.allPonies();
+        } else {
+            return ponyService.findPonyByName(name);
+        }
     }
 
     @PostMapping
@@ -45,8 +49,8 @@ public class PonyController {
     }
 
     @DeleteMapping("/{name}")
-    public ResponseEntity<Void> removePony(@PathVariable String name) {
+    public void removePony(@PathVariable String name) {
         ponyService.removePony(name);
-        return ResponseEntity.noContent().build(); // HTTP 204 No Content
     }
+
 }

@@ -27,7 +27,21 @@ public class PonyRepository {
         return pony;
     }
 
-    public boolean removePony(Pony pony) {
-        return ponies.removeIf(p -> p.getName().equals(pony.getName()));
+    public void removePony(Pony pony) {
+        ponies.remove(pony);
+    }
+
+    public void resetRepositoryData() {
+        ponies = new ArrayList<>();
+        ponies.add(new Pony("Bella", 5));
+        ponies.add(new Pony("Luna", 7));
+        ponies.add(new Pony("Angel", 12));
+    }
+
+    public Pony findPonyByName(String name) {
+        return ponies.stream()
+                .filter(pony -> pony.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Pony not found"));
     }
 }
