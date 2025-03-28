@@ -12,35 +12,57 @@ public class PonyService {
 
     private PonyRepository ponyRepository;
 
-    @Autowired
-    public PonyService(PonyRepository ponyRepository) {
-        this.ponyRepository = ponyRepository;
+    public List<Pony> allPonies() {
+        return ponyRepository.findAll();
     }
 
-    public List<Pony> allPonies() {
-        return ponyRepository.allPonies();
+    public Pony findPonyByName(String name) {
+        return ponyRepository.findByName(name);
     }
 
     public Pony addPony(Pony pony) {
-        return ponyRepository.addPony(pony);
+        return ponyRepository.save(pony);
     }
 
     public Pony updatePony(String name, Pony newInformation) {
-        Pony pony = findPonyByName(name);
+        Pony pony = ponyRepository.findByName(name);
         pony.updateNameAndAge(newInformation.getName(), newInformation.getAge());
-        return pony;
+        return ponyRepository.save(pony);
     }
 
     public void removePony(String name) {
         Pony pony = findPonyByName(name);
-        ponyRepository.removePony(pony);
+        ponyRepository.delete(pony);
     }
 
-    public Pony findPonyByName(String name) {
-        return ponyRepository.allPonies().stream()
-                .filter(pony -> pony.getName().equals(name))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Pony not found"));
-    }
-
+//    @Autowired
+//    public PonyService(PonyRepository ponyRepository) {
+//        this.ponyRepository = ponyRepository;
+//    }
+//
+//    public List<Pony> allPonies() {
+//        return ponyRepository.allPonies();
+//    }
+//
+//    public Pony addPony(Pony pony) {
+//        return ponyRepository.addPony(pony);
+//    }
+//
+//    public Pony updatePony(String name, Pony newInformation) {
+//        Pony pony = findPonyByName(name);
+//        pony.updateNameAndAge(newInformation.getName(), newInformation.getAge());
+//        return pony;
+//    }
+//
+//    public void removePony(String name) {
+//        Pony pony = findPonyByName(name);
+//        ponyRepository.removePony(pony);
+//    }
+//
+//    public Pony findPonyByName(String name) {
+//        return ponyRepository.allPonies().stream()
+//                .filter(pony -> pony.getName().equals(name))
+//                .findFirst()
+//                .orElseThrow(() -> new IllegalArgumentException("Pony not found"));
+//    }
 }
